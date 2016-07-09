@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+ <html>
+  <head>
+     <script type="text/javascript" src="d3/d3.js"></script>
+	 <script type="text/javascript" >
+	 function myFunction(){
+  var heightOfFlag = 400
+  var widthOfFlag = heightOfFlag * 1.5
+  var id = "IndianFlag"
+  var centerCircleFill = "white"
+  var centerCircleStrokeWidth = "3"
+  var centerCircleStroke = "#000080"
+  var lineStyle = "stroke:#000080;stroke-width:2"
+  var polygonStyle = "stroke:#000080;stroke-width:2;fill:#000080";
+  
+  rectStyle = {1:"fill:rgb(255,140,0);stroke-width:3;stroke:rgb(255,140,0)",2:"fill:rgb(255,255,255);stroke-width:3;stroke:rgb(255,255,255)",3:"fill:rgb(0,204,0);stroke-width:3;stroke:rgb(0,204,0)"}
+  addSvg(widthOfFlag,heightOfFlag,id);
+  var xPositionOfRect = 0;
+  var yPositionOfRect = 0;
+  var xcenterOfCircle = widthOfFlag/2
+  var ycenterOfCircle = heightOfFlag/2
+  
+  for(i=1;i<=3;i++){
+   addRect(id,xPositionOfRect,yPositionOfRect+((i-1)*(heightOfFlag/3)),widthOfFlag,(heightOfFlag/3),rectStyle[i])
+   if(i==2){
+          var radius = (heightOfFlag/6)-(heightOfFlag/24)
+          addCircle(id,xcenterOfCircle,ycenterOfCircle,radius,centerCircleStroke,centerCircleFill,centerCircleStrokeWidth);
+		  for( j=0;j<24;j++){
+		  var x3 = xcenterOfCircle + (radius-2)*Math.cos(j * 15 * Math.PI/180);
+		  var y3 = ycenterOfCircle + (radius-2)*Math.sin(j * 15 * Math.PI/180);
+		  //addLine(id,xcenterOfCircle,ycenterOfCircle,x3,y3,lineStyle)
+		  
+		  var x2 = ((xcenterOfCircle+x3)/2)+1.5*Math.cos((90+(j * 15)) * Math.PI/180)
+		  var y2 = ((ycenterOfCircle+y3)/2)+1.5*Math.sin((90+(j * 15)) * Math.PI/180)
+
+		  var x4 = ((xcenterOfCircle+x3)/2)+1.5*Math.cos((270+(j * 15)) * Math.PI/180)
+		  var y4 = ((ycenterOfCircle+y3)/2)+1.5*Math.sin((270+(j * 15)) * Math.PI/180)
+
+		  var points = xcenterOfCircle+","+ycenterOfCircle+" "+x2+","+y2+" "+x3+","+y3+" "+x4+","+y4
+		  addPolygon(id,points,polygonStyle)
+		  
+		  var x5 = xcenterOfCircle + (radius-2)*Math.cos( ((7.5)+(j * 15)) * Math.PI/180);
+		  var y5 = ycenterOfCircle + (radius-2)*Math.sin( ((7.5)+(j * 15)) * Math.PI/180);
+          addCircle(id,x5,y5,1,centerCircleStroke,centerCircleStroke,1)		  
+		  }
+   }
+   
+   }  
+					   }
+	
+	function addSvg(width,height,id){
+								d3.select("body").append("svg")
+                                     .attr("width", width)
+                                     .attr("height",height)
+									 .attr("id",id)
+									 
+	}
+	
+	function addRect(svgtag,x,y,width,height,style){
+					d3.select("#"+svgtag)
+									 .append("rect")
+									 .attr("x",x)
+									 .attr("y",y)
+									 .attr("width", width)
+									 .attr("height", height)
+                                     .attr("style", style)
+							
+	}
+	function addCircle(svgtag,cx,cy,r,stroke,fill,strokeWidth){
+						d3.select('#'+svgtag).append("circle")
+									 .attr("cx",cx)
+									 .attr("cy",cy)
+									 .attr("r",r)
+									 .attr("stroke",stroke)
+									 .attr("fill",fill)
+									 .attr("stroke-width",strokeWidth)
+	}
+	
+	function addLine(svgtag,x1,y1,x2,y2,style){
+	d3.select('#'+svgtag).append("line")
+									 .attr("x1",x1)
+									 .attr("y1",y1)
+									 .attr("x2",x2)
+									 .attr("y2",y2)
+									 .attr("style",style)
+	}
+	
+	function addPolygon(svgtag,points,style){
+	d3.select('#'+svgtag).append("polygon")
+									 .attr("points",points)
+									 .attr("style",style)
+	}
+	</script>
+	 
+   </head>
+   <body onload="myFunction()" >
+
+
+   </body>
+ </html>
