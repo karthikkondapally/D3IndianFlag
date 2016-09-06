@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+ <html>
+  <head>
+     <script type="text/javascript" src="d3/d3.js"></script>
+	 <script type="text/javascript" >
+	 function myFunction(){
+  var heightOfFlag = 400
+  var widthOfFlag = heightOfFlag * 1.5
+  var id = "IndianFlag"
+  var centerCircleFill = "#000000"
+  var centerCircleStrokeWidth = "1"
+  var centerCircleStroke = "#000000"
+  var lineStyle = "stroke:#000000;stroke-width:1"
+  var polygonStyle = "stroke:#f3cc14;stroke-width:1;fill:#f3cc14";
+  var rhombusScalingFactor = (heightOfFlag*1.5)/200
+  rectStyle = {1:"fill:rgb(255,140,0);stroke-width:3;stroke:rgb(255,140,0)",2:"fill:rgb(255,255,255);stroke-width:3;stroke:rgb(255,255,255)",3:"fill:rgb(0,204,0);stroke-width:3;stroke:rgb(0,204,0)"}
+  addSvg(widthOfFlag,heightOfFlag,id);
+  var xPositionOfRect = 0;
+  var yPositionOfRect = 0;
+  var xcenterOfCircle = widthOfFlag/2
+  var ycenterOfCircle = heightOfFlag/2
+  var i=360;
+
+          var radius = (heightOfFlag/6)-(heightOfFlag/24)
+          addCircle(id,xcenterOfCircle,ycenterOfCircle,radius,centerCircleStroke,centerCircleFill,centerCircleStrokeWidth);
+		  for( j=0;j<12;j++){
+		  
+		  var x5 = xcenterOfCircle + (radius-2)*Math.cos( ((j * 30)) * Math.PI/180);
+		  var y5 = ycenterOfCircle + (radius-2)*Math.sin( ((j * 30)) * Math.PI/180);
+          addCircle(id,x5,y5,1,centerCircleStroke,centerCircleStroke,1)		  
+		  }
+		  
+		  
+		  
+		  var x3 = xcenterOfCircle + (radius-8)*Math.cos(270 * Math.PI/180);
+		  var y3 = ycenterOfCircle + (radius-8)*Math.sin(270 * Math.PI/180);
+		  //addLine(id,xcenterOfCircle,ycenterOfCircle,x3,y3,lineStyle)
+		  
+		  var x2 = ((xcenterOfCircle+x3)/2)+rhombusScalingFactor*Math.cos((90+(270)) * Math.PI/180)
+		  var y2 = ((ycenterOfCircle+y3)/2)+rhombusScalingFactor*Math.sin((90+(270)) * Math.PI/180)
+
+		  var x4 = ((xcenterOfCircle+x3)/2)+rhombusScalingFactor*Math.cos((270+(270)) * Math.PI/180)
+		  var y4 = ((ycenterOfCircle+y3)/2)+rhombusScalingFactor*Math.sin((270+(270)) * Math.PI/180)
+
+		  var points = xcenterOfCircle+","+ycenterOfCircle+" "+x2+","+y2+" "+x3+","+y3+" "+x4+","+y4
+		  addPolygon(id,points,polygonStyle,"minute")
+		  
+		  
+		  var a3 = xcenterOfCircle + (radius/2)*Math.cos(30 * Math.PI/180);
+		  var b3 = ycenterOfCircle + (radius/2)*Math.sin(30 * Math.PI/180);
+		  
+		  
+		  var a2 = ((xcenterOfCircle+a3)/2)+rhombusScalingFactor*Math.cos((90+(30)) * Math.PI/180)
+		  var b2 = ((ycenterOfCircle+b3)/2)+rhombusScalingFactor*Math.sin((90+(30)) * Math.PI/180)
+
+		  var a4 = ((xcenterOfCircle+a3)/2)+rhombusScalingFactor*Math.cos((270+(30)) * Math.PI/180)
+		  var b4 = ((ycenterOfCircle+b3)/2)+rhombusScalingFactor*Math.sin((270+(30)) * Math.PI/180)
+
+		  var point = xcenterOfCircle+","+ycenterOfCircle+" "+a2+","+b2+" "+a3+","+b3+" "+a4+","+b4
+		  addPolygon(id,point,polygonStyle,"hour")
+
+  		  var a5 = ((xcenterOfCircle))+(radius-2)*Math.cos((90) * Math.PI/180)
+		  var b5 = ((ycenterOfCircle))+(radius-2)*Math.sin((90) * Math.PI/180)
+
+				
+
+    
+	setInterval(function(x){ 
+	
+			
+		  var x3 = xcenterOfCircle + (radius-8)*Math.cos(i+270 * Math.PI/180);
+		  var y3 = ycenterOfCircle + (radius-8)*Math.sin(i+270 * Math.PI/180);
+		  var x2 = ((xcenterOfCircle+x3)/2)+rhombusScalingFactor*Math.cos((90+(i+270)) * Math.PI/180)
+		  var y2 = ((ycenterOfCircle+y3)/2)+rhombusScalingFactor*Math.sin((90+(i+270)) * Math.PI/180)
+
+		  var x4 = ((xcenterOfCircle+x3)/2)+rhombusScalingFactor*Math.cos((270+(i+270)) * Math.PI/180)
+		  var y4 = ((ycenterOfCircle+y3)/2)+rhombusScalingFactor*Math.sin((270+(i+270)) * Math.PI/180)
+
+		  var points = xcenterOfCircle+","+ycenterOfCircle+" "+x2+","+y2+" "+x3+","+y3+" "+x4+","+y4
+	    i=(i-6);
+		if(i===0){
+		i=360;
+		}
+		console.log(points+" "+x);
+        d3.select('#minute').attr("points",points);
+	}, 1000);
+					   }
+	
+	function addSvg(width,height,id){
+								d3.select("body").append("svg")
+                                     .attr("width", width)
+                                     .attr("height",height)
+									 .attr("id",id)
+									 
+	}
+	
+	function addRect(svgtag,x,y,width,height,style){
+					d3.select("#"+svgtag)
+									 .append("rect")
+									 .attr("x",x)
+									 .attr("y",y)
+									 .attr("width", width)
+									 .attr("height", height)
+                                     .attr("style", style)
+							
+	}
+	function addCircle(svgtag,cx,cy,r,stroke,fill,strokeWidth){
+						d3.select('#'+svgtag).append("circle")
+									 .attr("cx",cx)
+									 .attr("cy",cy)
+									 .attr("r",r)
+									 .attr("stroke",stroke)
+									 .attr("fill",fill)
+									 .attr("stroke-width",strokeWidth)
+	}
+	
+	function addLine(svgtag,x1,y1,x2,y2,style){
+	d3.select('#'+svgtag).append("line")
+									 .attr("x1",x1)
+									 .attr("y1",y1)
+									 .attr("x2",x2)
+									 .attr("y2",y2)
+									 .attr("style",style)
+	}
+	
+	function addPolygon(svgtag,points,style,id){
+	d3.select('#'+svgtag).append("polygon")
+									.attr("id",id)
+									 .attr("points",points)
+									 .attr("style",style)
+	}
+	
+	
+	
+	
+	</script>
+	 
+   </head>
+   <body onload="myFunction()" >
+    <canvas id="flag" width="600" height="400" style="margin-left: -160px; margin-top: -124px;"></canvas>
+
+
+   </body>
+ </html>
